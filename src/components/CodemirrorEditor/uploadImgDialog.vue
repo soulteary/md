@@ -39,7 +39,7 @@
           </div>
         </el-upload>
       </el-tab-pane>
-      <el-tab-pane class="github-panel" label="Gitee 图床" name="gitee">
+      <!-- <el-tab-pane class="github-panel" label="Gitee 图床" name="gitee">
         <el-form
           class="setting-form"
           :model="formGitee"
@@ -77,7 +77,7 @@
             >
           </el-form-item>
         </el-form>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane class="github-panel" label="GitHub 图床" name="github">
         <el-form
           class="setting-form"
@@ -107,13 +107,13 @@
               type="primary"
               href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token"
               target="_blank"
-              >如何获取 GitHub Token？</el-link
-            >
+              >如何获取 GitHub Token？
+            </el-link>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="saveGitHubConfiguration"
-              >保存配置</el-button
-            >
+              >保存配置
+            </el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -164,13 +164,13 @@
               type="primary"
               href="https://help.aliyun.com/document_detail/31883.html"
               target="_blank"
-              >如何使用阿里云 OSS？</el-link
-            >
+              >如何使用阿里云 OSS？
+            </el-link>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="saveAliOSSConfiguration"
-              >保存配置</el-button
-            >
+            <el-button type="primary" @click="saveAliOSSConfiguration">
+              保存配置
+            </el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -221,13 +221,13 @@
               type="primary"
               href="https://cloud.tencent.com/document/product/436/38484"
               target="_blank"
-              >如何使用腾讯云 COS？</el-link
-            >
+              >如何使用腾讯云 COS？
+            </el-link>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="saveTxCOSConfiguration"
-              >保存配置</el-button
-            >
+            <el-button type="primary" @click="saveTxCOSConfiguration">
+              保存配置
+            </el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -278,17 +278,80 @@
               type="primary"
               href="https://developer.qiniu.com/kodo"
               target="_blank"
-              >如何使用七牛云 Kodo？</el-link
-            >
+              >如何使用七牛云 Kodo？
+            </el-link>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="saveQiniuConfiguration"
-              >保存配置</el-button
-            >
+            <el-button type="primary" @click="saveQiniuConfiguration">
+              保存配置
+            </el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane class="github-panel formCustom" label="自定义代码" name="formCustom">
+      <el-tab-pane class="github-panel" label="MinIO" name="minio">
+        <el-form
+          class="setting-form"
+          :model="minioOSS"
+          label-position="right"
+          label-width="140px"
+        >
+          <el-form-item label="Endpoint" :required="true">
+            <el-input
+              v-model.trim="minioOSS.endpoint"
+              placeholder="如：play.min.io"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Port" :required="false">
+            <el-input
+              type="number"
+              v-model.trim="minioOSS.port"
+              placeholder="如：9000，可不填，http 默认为 80，https 默认为 443"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="UseSSL" :required="true">
+            <el-switch
+              v-model="minioOSS.useSSL"
+              active-text="是"
+              inactive-text="否"
+            >
+            </el-switch>
+          </el-form-item>
+          <el-form-item label="Bucket" :required="true">
+            <el-input
+              v-model.trim="minioOSS.bucket"
+              placeholder="如：doocs"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="AccessKey" :required="true">
+            <el-input
+              v-model.trim="minioOSS.accessKey"
+              placeholder="如：zhangsan"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="SecretKey" :required="true">
+            <el-input
+              v-model.trim="minioOSS.secretKey"
+              placeholder="如：asdasdasd"
+            ></el-input>
+            <el-link
+              type="primary"
+              href="http://docs.minio.org.cn/docs/master/minio-client-complete-guide"
+              target="_blank"
+              >如何使用 MinIO？
+            </el-link>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="saveMinioOSSConfiguration">
+              保存配置
+            </el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane
+        class="github-panel formCustom"
+        label="自定义代码"
+        name="formCustom"
+      >
         <el-form
           class="setting-form"
           :model="formCustom"
@@ -301,19 +364,20 @@
               type="textarea"
               resize="none"
               placeholder="Your custom code here."
-              v-model="formCustom.code">
+              v-model="formCustom.code"
+            >
             </el-input>
             <el-link
               type="primary"
               href="https://github.com/doocs/md#自定义上传逻辑"
               target="_blank"
-              >参数详情？</el-link
-            >
+              >参数详情？
+            </el-link>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="formCustomSave"
-              >保存配置</el-button
-            >
+              >保存配置
+            </el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -322,8 +386,8 @@
 </template>
 
 <script>
-import { checkImage, removeLeft } from "../../assets/scripts/util";
-import CodeMirror from "codemirror/lib/codemirror";
+import { checkImage, removeLeft } from '../../assets/scripts/util'
+import CodeMirror from 'codemirror/lib/codemirror'
 
 export default {
   props: {
@@ -335,42 +399,52 @@ export default {
   data() {
     return {
       activeName: `upload`,
-      
+
       formGitHub: {
-        repo: "",
-        branch: "",
-        accessToken: "",
+        repo: ``,
+        branch: ``,
+        accessToken: ``,
       },
-      formGitee: {
-        repo: "",
-        branch: "",
-        accessToken: "",
-      },
+      // formGitee: {
+      //   repo: ``,
+      //   branch: ``,
+      //   accessToken: ``,
+      // },
       formAliOSS: {
-        accessKeyId: "",
-        accessKeySecret: "",
-        bucket: "",
-        region: "",
-        path: "",
-        cdnHost: "",
+        accessKeyId: ``,
+        accessKeySecret: ``,
+        bucket: ``,
+        region: ``,
+        path: ``,
+        cdnHost: ``,
+      },
+      minioOSS: {
+        endpoint: ``,
+        port: ``,
+        useSSL: true,
+        bucket: ``,
+        accessKey: ``,
+        secretKey: ``,
       },
       formTxCOS: {
-        secretId: "",
-        secretKey: "",
-        bucket: "",
-        region: "",
-        path: "",
-        cdnHost: "",
+        secretId: ``,
+        secretKey: ``,
+        bucket: ``,
+        region: ``,
+        path: ``,
+        cdnHost: ``,
       },
       formQiniu: {
-        accessKey: "",
-        secretKey: "",
-        bucket: "",
-        domain: "",
-        region: "",
+        accessKey: ``,
+        secretKey: ``,
+        bucket: ``,
+        domain: ``,
+        region: ``,
       },
       formCustom: {
-        code: localStorage.getItem(`formCustomConfig`) || removeLeft(`
+        code:
+          localStorage.getItem(`formCustomConfig`) ||
+          removeLeft(`
           const {file, util, okCb, errCb} = CUSTOM_ARG
           const param = new FormData()
           param.append('file', file)
@@ -386,77 +460,84 @@ export default {
       },
       options: [
         {
-          value: "default",
-          label: "默认",
+          value: `default`,
+          label: `默认`,
+        },
+        // {
+        //   value: `gitee`,
+        //   label: `Gitee`,
+        // },
+        {
+          value: `github`,
+          label: `GitHub`,
         },
         {
-          value: "gitee",
-          label: "Gitee",
+          value: `aliOSS`,
+          label: `阿里云`,
         },
         {
-          value: "github",
-          label: "GitHub",
+          value: `txCOS`,
+          label: `腾讯云`,
         },
         {
-          value: "aliOSS",
-          label: "阿里云",
+          value: `qiniu`,
+          label: `七牛云`,
         },
         {
-          value: "txCOS",
-          label: "腾讯云",
+          value: `minio`,
+          label: `MinIO`,
         },
         {
-          value: "qiniu",
-          label: "七牛云",
-        },
-        {
-          value: "formCustom",
-          label: "自定义代码",
+          value: `formCustom`,
+          label: `自定义代码`,
         },
       ],
-      imgHost: "default",
-    };
+      imgHost: `default`,
+    }
   },
   created() {
-    if (localStorage.getItem("githubConfig")) {
-      this.formGitHub = JSON.parse(localStorage.getItem("githubConfig"));
+    if (localStorage.getItem(`githubConfig`)) {
+      this.formGitHub = JSON.parse(localStorage.getItem(`githubConfig`))
     }
-    if (localStorage.getItem("giteeConfig")) {
-      this.formGitee = JSON.parse(localStorage.getItem("giteeConfig"));
+    // if (localStorage.getItem(`giteeConfig`)) {
+    //   this.formGitee = JSON.parse(localStorage.getItem(`giteeConfig`))
+    // }
+    if (localStorage.getItem(`aliOSSConfig`)) {
+      this.formAliOSS = JSON.parse(localStorage.getItem(`aliOSSConfig`))
     }
-    if (localStorage.getItem("aliOSSConfig")) {
-      this.formAliOSS = JSON.parse(localStorage.getItem("aliOSSConfig"));
+    if (localStorage.getItem(`minioConfig`)) {
+      this.minioOSS = JSON.parse(localStorage.getItem(`minioConfig`))
     }
-    if (localStorage.getItem("txCOSConfig")) {
-      this.formTxCOS = JSON.parse(localStorage.getItem("txCOSConfig"));
+    if (localStorage.getItem(`txCOSConfig`)) {
+      this.formTxCOS = JSON.parse(localStorage.getItem(`txCOSConfig`))
     }
-    if (localStorage.getItem("imgHost")) {
-      this.imgHost = localStorage.getItem("imgHost");
+    if (localStorage.getItem(`imgHost`)) {
+      this.imgHost = localStorage.getItem(`imgHost`)
     }
   },
   methods: {
     changeImgHost() {
-      localStorage.setItem("imgHost", this.imgHost);
-      this.$message.success("已成功切换图床");
+      localStorage.setItem(`imgHost`, this.imgHost)
+      this.$message.success(`已成功切换图床`)
     },
     saveGitHubConfiguration() {
       if (!(this.formGitHub.repo && this.formGitHub.accessToken)) {
-        const blankElement = this.formGitHub.repo ? "token" : "GitHub 仓库";
-        this.$message.error(`参数「​${blankElement}」不能为空`);
-        return;
+        const blankElement = this.formGitHub.repo ? `token` : `GitHub 仓库`
+        this.$message.error(`参数「${blankElement}」不能为空`)
+        return
       }
-      localStorage.setItem("githubConfig", JSON.stringify(this.formGitHub));
-      this.$message.success("保存成功");
+      localStorage.setItem(`githubConfig`, JSON.stringify(this.formGitHub))
+      this.$message.success(`保存成功`)
     },
-    saveGiteeConfiguration() {
-      if (!(this.formGitee.repo && this.formGitee.accessToken)) {
-        const blankElement = this.formGitee.repo ? "私人令牌" : "Gitee 仓库";
-        this.$message.error(`参数「​${blankElement}」不能为空`);
-        return;
-      }
-      localStorage.setItem("giteeConfig", JSON.stringify(this.formGitee));
-      this.$message.success("保存成功");
-    },
+    // saveGiteeConfiguration() {
+    //   if (!(this.formGitee.repo && this.formGitee.accessToken)) {
+    //     const blankElement = this.formGitee.repo ? `私人令牌` : `Gitee 仓库`
+    //     this.$message.error(`参数「${blankElement}」不能为空`)
+    //     return
+    //   }
+    //   localStorage.setItem(`giteeConfig`, JSON.stringify(this.formGitee))
+    //   this.$message.success(`保存成功`)
+    // },
     saveAliOSSConfiguration() {
       if (
         !(
@@ -466,13 +547,27 @@ export default {
           this.formAliOSS.region
         )
       ) {
-        this.$message.error(`阿里云 OSS 参数配置不全`);
-        return;
+        this.$message.error(`阿里云 OSS 参数配置不全`)
+        return
       }
-      localStorage.setItem("aliOSSConfig", JSON.stringify(this.formAliOSS));
-      this.$message.success("保存成功");
+      localStorage.setItem(`aliOSSConfig`, JSON.stringify(this.formAliOSS))
+      this.$message.success(`保存成功`)
     },
-
+    saveMinioOSSConfiguration() {
+      if (
+        !(
+          this.minioOSS.endpoint &&
+          this.minioOSS.bucket &&
+          this.minioOSS.accessKey &&
+          this.minioOSS.secretKey
+        )
+      ) {
+        this.$message.error(`MinIO 参数配置不全`)
+        return
+      }
+      localStorage.setItem(`minioConfig`, JSON.stringify(this.minioOSS))
+      this.$message.success(`保存成功`)
+    },
     saveTxCOSConfiguration() {
       if (
         !(
@@ -482,11 +577,11 @@ export default {
           this.formTxCOS.region
         )
       ) {
-        this.$message.error(`腾讯云 COS 参数配置不全`);
-        return;
+        this.$message.error(`腾讯云 COS 参数配置不全`)
+        return
       }
-      localStorage.setItem("txCOSConfig", JSON.stringify(this.formTxCOS));
-      this.$message.success("保存成功");
+      localStorage.setItem(`txCOSConfig`, JSON.stringify(this.formTxCOS))
+      this.$message.success(`保存成功`)
     },
 
     saveQiniuConfiguration() {
@@ -499,11 +594,11 @@ export default {
           this.formQiniu.region
         )
       ) {
-        this.$message.error(`七牛云 Kodo 参数配置不全`);
-        return;
+        this.$message.error(`七牛云 Kodo 参数配置不全`)
+        return
       }
-      localStorage.setItem("qiniuConfig", JSON.stringify(this.formQiniu));
-      this.$message.success("保存成功");
+      localStorage.setItem(`qiniuConfig`, JSON.stringify(this.formQiniu))
+      this.$message.success(`保存成功`)
     },
     formCustomSave() {
       const str = this.formCustom.editor.getValue()
@@ -513,69 +608,80 @@ export default {
 
     beforeImageUpload(file) {
       // check image
-      const checkResult = checkImage(file);
+      const checkResult = checkImage(file)
       if (!checkResult.ok) {
-        this.$message.error(checkResult.msg);
-        return false;
+        this.$message.error(checkResult.msg)
+        return false
       }
       // check image host
-      let imgHost = localStorage.getItem("imgHost");
-      imgHost = imgHost ? imgHost : "default";
-      localStorage.setItem("imgHost", imgHost);
+      let imgHost = localStorage.getItem(`imgHost`)
+      imgHost = imgHost ? imgHost : `default`
+      localStorage.setItem(`imgHost`, imgHost)
 
-      const config = localStorage.getItem(`${imgHost}Config`);
-      const isValidHost = imgHost == "default" || config;
+      const config = localStorage.getItem(`${imgHost}Config`)
+      const isValidHost = imgHost == `default` || config
       if (!isValidHost) {
-        this.$message.error(`请先配置 ${imgHost} 图床参数`);
-        return false;
+        this.$message.error(`请先配置 ${imgHost} 图床参数`)
+        return false
       }
-      return true;
+      return true
     },
     uploadImage(params) {
-      this.$emit("uploadImage", params.file);
+      this.$emit(`uploadImage`, params.file)
     },
   },
   watch: {
     activeName: {
       immediate: true,
       handler(val) {
-        if(val === `formCustom`) {
+        if (val === `formCustom`) {
           this.$nextTick(() => {
-            const textarea = this.$refs.formCustomElInput.$el.querySelector(`textarea`)
-            this.formCustom.editor = this.formCustom.editor || CodeMirror.fromTextArea(textarea, {
-              mode: `javascript`,
-            })
+            const textarea =
+              this.$refs.formCustomElInput.$el.querySelector(`textarea`)
+            this.formCustom.editor =
+              this.formCustom.editor ||
+              CodeMirror.fromTextArea(textarea, {
+                mode: `javascript`,
+              })
             this.formCustom.editor.setValue(this.formCustom.code)
           })
         }
       },
     },
   },
-  mounted() {
-    
-  },
-};
+  mounted() {},
+}
 </script>
 
 <style lang="less" scoped>
+.upload__dialog {
+  display: flex;
+}
+
 /deep/ .el-dialog {
   width: 55%;
-  min-height: 615px;
   min-width: 640px;
+  min-height: 615px;
+  // 消除固定的行内样式，配合 flex 布局居中元素
+  margin: auto !important;
 }
+
 /deep/ .el-upload-dragger {
   display: flex;
   flex-flow: column;
   justify-content: center;
   width: 500px;
   height: 360px;
+
   .el-icon-upload {
     margin-top: 0;
   }
 }
+
 /deep/ .el-dialog__body {
   padding-bottom: 50px;
 }
+
 .upload-panel {
   display: flex;
   flex-direction: column;
@@ -593,15 +699,19 @@ export default {
 .github-panel {
   display: flex;
   justify-content: center;
+
   &.formCustom {
     width: 100%;
   }
+
   .formCustomElInput {
     /deep/ .CodeMirror {
       border: 1px solid #eee;
       height: 300px !important;
-      font-family: "Fira Mono", "DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", Monaco, "Lucida Console", monospace !important;
+      font-family: 'Fira Mono', 'DejaVu Sans Mono', Menlo, Consolas,
+        'Liberation Mono', Monaco, 'Lucida Console', monospace !important;
       line-height: 20px;
+
       .CodeMirror-scroll {
         padding: 10px;
       }
